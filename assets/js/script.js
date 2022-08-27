@@ -5,70 +5,59 @@ var list = document.querySelectorAll(".list-items li");
 var heading = document.querySelectorAll(".list-items h3");
 var para = document.querySelectorAll(".list-items p");
 
-function openClose(index) {
-  function commonFunction(element, ind) {
-    // if (index === ind) element.classList.toggle("active");
-    if (index === ind) element.classList.add("active");
-  }
-  // either this(i.e. "element.classList.add('active')") or above commented statements
-  // and do comment 'classList.remove' in all element's forEach,
-  // and also remove code preset at the end of program commented with 'extra function'
-  Open.forEach(function (clickOpen, indOpen) {
-    clickOpen.classList.remove("active");
-    commonFunction(clickOpen, indOpen);
-  });
+// **************** click functionality start **************** //
+function initialOpenCall(initialElement) {
+  initialElement.classList.add("active");
+}
 
-  Close.forEach(function (clickClose, indClose) {
-    clickClose.classList.remove("active");
-    commonFunction(clickClose, indClose);
-  });
+initialOpenCall(Open[0]);
+initialOpenCall(Close[0]);
+initialOpenCall(list[0]);
+initialOpenCall(heading[0]);
+initialOpenCall(para[0]);
 
-  list.forEach(function (list, indList) {
-    list.classList.remove("active");
-    commonFunction(list, indList);
-  });
+function commonOpen(boxIndex, element, elementIndex) {
+  if (boxIndex === elementIndex) element.classList.add("active");
+}
 
-  heading.forEach(function (heading, indHeading) {
-    heading.classList.remove("active");
-    commonFunction(heading, indHeading);
-  });
-
-  para.forEach(function (para, indPara) {
-    para.classList.remove("active");
-    commonFunction(para, indPara);
+function forEachOpenClose(boxIndex, elements) {
+  elements.forEach(function (element, elementIndex) {
+    element.classList.remove("active");
+    commonOpen(boxIndex, element, elementIndex);
   });
 }
 
-// defining extra function to remove 'active class' to 'active box'
-function openCloseAgain() {
-  Open.forEach(function (clickOpen) {
-    clickOpen.classList.remove("active");
-  });
+function openClose(boxIndex) {
+  forEachOpenClose(boxIndex, Open);
+  forEachOpenClose(boxIndex, Close);
+  forEachOpenClose(boxIndex, list);
+  forEachOpenClose(boxIndex, heading);
+  forEachOpenClose(boxIndex, para);
+}
+// ***************** click functionality end ***************** //
 
-  Close.forEach(function (clickClose) {
-    clickClose.classList.remove("active");
-  });
-
-  list.forEach(function (list) {
-    list.classList.remove("active");
-  });
-
-  heading.forEach(function (heading) {
-    heading.classList.remove("active");
-  });
-
-  para.forEach(function (para) {
-    para.classList.remove("active");
-  });
+// ************* double click functionality start ************* //
+function forEachClose(elements) {
+  elements.forEach(function (element) {
+    element.classList.remove("active");
+  })
 }
 
-openCloseBox.forEach(function (box, index) {
+function dblClickClose() {
+  forEachClose(Open);
+  forEachClose(Close);
+  forEachClose(list);
+  forEachClose(heading);
+  forEachClose(para);
+}
+// ************* double click functionality end ************* //
+
+openCloseBox.forEach(function (box, boxIndex) {
   box.addEventListener("click", function () {
-    openClose(index);
-    // adding extra function to 'remove active class' to 'active box'
-    box.addEventListener("dblclick", function () {
-      // calling extra function to 'remove active class' to 'active box'
-      openCloseAgain();
-    });
+    openClose(boxIndex);
+  });
+
+  box.addEventListener("dblclick", function () {
+    dblClickClose();
   });
 });
